@@ -8,6 +8,7 @@ import AdminProducts from './pages/AdminProducts';
 import AdminOrders from './pages/AdminOrders';
 import AdminDashboard from './pages/AdminDashboard';
 import Navbar from './components/Navbar';
+import MyOrders from './pages/MyOrders';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                         <Route path="/register" element={<Register />} />
                         <Route path="/cart" element={<Cart />} />
                         <Route path="/admin" element={<AdminDashboard />} />
+                        <Route path="/my-orders" element={<MyOrders />} />
                         <Route path="/admin/products" element={<AdminProducts />} />
                         <Route path="/admin/orders" element={<AdminOrders />} />
                     </Routes>

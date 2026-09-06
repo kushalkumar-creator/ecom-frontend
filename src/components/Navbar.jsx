@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Boxes,
   ClipboardCheckIcon,
   LogOut,
   Menu,
+  Package,
   PlusCircle,
   Search,
   ShoppingCart,
@@ -19,11 +20,15 @@ import { getCartCount } from "../cartUtils";
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(getCartCount());
   const profileDropDown = useRef(null);
+
+  const hideSearch =
+    location.pathname === "/login" || location.pathname === "/register";
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -93,6 +98,7 @@ export default function Navbar() {
               <Link
                 to="/admin"
                 className="flex items-center gap-2 bg-white text-indigo-700 font-semibold px-4 py-2 rounded-full hover:bg-indigo-100 transition-all"
+                onClick={() => setMenuOpen(false)}
               >
                 Dashboard
               </Link>
@@ -134,7 +140,7 @@ export default function Navbar() {
       >
         ShopEasy
       </Link>
-      {(!user || user.role === "customer") && (
+      {(!user || user.role === "customer") && !hideSearch && (
         <form
           onSubmit={handleSearch}
           className="hidden md:flex items-center bg-white rounded-full px-4 py-2 w-1/2 max-w-lg shadow-md"
@@ -167,6 +173,12 @@ export default function Navbar() {
         {user?.role === "admin" && (
           <>
             <div className="hidden md:flex items-center gap-4">
+              <Link
+                to="/admin"
+                className="flex items-center gap-2 bg-white text-indigo-700 font-semibold px-4 py-2 rounded-full hover:bg-indigo-100 transition-all"
+              >
+                Dashboard
+              </Link>
               <Link
                 to="/admin/products"
                 className="flex items-center gap-2 bg-white text-indigo-700 font-semibold px-4 py-2 rounded-full hover:bg-indigo-100 transition-all"
@@ -219,6 +231,17 @@ export default function Navbar() {
                       </div>
                     </div>
                   </div>
+
+                  {user.role === "customer" && (
+                    <Link
+                      to="/my-orders"
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-2 px-3 py-3 hover:bg-indigo-50 rounded-lg text-gray-700 font-medium"
+                    >
+                      <Package className="w-5 h-5 text-indigo-600" />
+                      My Orders
+                    </Link>
+                  )}
 
                   <button
                     className="flex items-center gap-2 w-full text-left px-3 py-3 hover:bg-red-100 rounded-lg text-gray-700 font-medium"
