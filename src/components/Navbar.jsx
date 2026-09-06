@@ -96,13 +96,6 @@ export default function Navbar() {
 
             <div className="flex flex-col gap-3 font-medium mt-6">
               <Link
-                to="/admin"
-                className="flex items-center gap-2 bg-white text-indigo-700 font-semibold px-4 py-2 rounded-full hover:bg-indigo-100 transition-all"
-                onClick={() => setMenuOpen(false)}
-              >
-                Dashboard
-              </Link>
-              <Link
                 to="/admin/products"
                 className="flex items-center gap-3 p-3 rounded-lg bg-white/10 hover:bg-white/20 hover:pl-4 transition-all"
                 onClick={() => setMenuOpen(false)}
@@ -170,6 +163,15 @@ export default function Navbar() {
           </Link>
         )}
 
+        {user?.role === "customer" && (
+          <Link
+            to="/my-orders"
+            className="bg-white rounded-full w-11 h-11 flex items-center justify-center shadow-md hover:scale-105 transition"
+          >
+            <Package className="text-indigo-600 w-6 h-6" />
+          </Link>
+        )}
+
         {user?.role === "admin" && (
           <>
             <div className="hidden md:flex items-center gap-4">
@@ -231,17 +233,6 @@ export default function Navbar() {
                       </div>
                     </div>
                   </div>
-
-                  {user.role === "customer" && (
-                    <Link
-                      to="/my-orders"
-                      onClick={() => setOpen(false)}
-                      className="flex items-center gap-2 px-3 py-3 hover:bg-indigo-50 rounded-lg text-gray-700 font-medium"
-                    >
-                      <Package className="w-5 h-5 text-indigo-600" />
-                      My Orders
-                    </Link>
-                  )}
 
                   <button
                     className="flex items-center gap-2 w-full text-left px-3 py-3 hover:bg-red-100 rounded-lg text-gray-700 font-medium"
